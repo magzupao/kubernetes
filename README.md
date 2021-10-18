@@ -124,4 +124,75 @@ node              10        28dca6642db8   6 months ago   910MB
 docker push magzupao/my-app:v1
 
 ```
+  
+  
+Importante debe tener una cuenta activa en IBM Cloud para efectos practicos crear una cuenta nueva.
+
+1. creamos una cuenta nueva:
+https://cloud.ibm.com/
+
+2. nos logeamos y accedemos a esta url:
+https://cloud.ibm.com/registry/start
+
+3. seguimos las instrucciones:
+```
+Instalar, configurar e iniciar sesión
+1. Instale la CLI de IBM Cloud. - https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install
+
+2. Instale la CLI de Docker. - https://docs.docker.com/engine/install/
+
+3. Instale el plug-in de Container Registry.
+ibmcloud plugin install container-registry -r 'IBM Cloud'
+
+4. Inicie sesión en la cuenta de IBM Cloud.
+ibmcloud login -a https://cloud.ibm.com
+
+5. Asegúrese de que el destino sea la región correcta de IBM Cloud Container Registry.  
+Al momento de logearme defini la region con lo cual este paso se puede saltar sino lo ha definido en el paso anterior:  
+ibmcloud cr region-set global
+
+6. Elija un nombre para el primer espacio de nombres y cree ese espacio de nombres. Utilice este espacio de nombres para el resto del Inicio rápido.
+ibmcloud cr namespace-add magztest
+
+7. Creo mi imagen:
+docker tag my-app:v1 us.icr.io/magztest/my-app:v1  
+
+8. Me logeo a IBM Cloud
+ibmcloud cr login
+
+9. Subo la imagen al repositorio:
+docker push us.icr.io/magztest/my-app:v1
+
+10. Verifico la subida de la imagen:
+ibmcloud cr image-list
+
+```
+
+Tambien podemos subir las imagenes a github de es esta forma, primero crear un token que permita realizar el push, despues de logearnos a github vamos a esta url:
+https://github.com/settings/tokens  
+  
+Agregamos permisos marcando repo, user, write:packages y delete:packages
+
+generamos nuestro token y lo guardamos en un archivo PAT.txt en nuestra raiz vagrant@debian-10:~
+
+Ejecutamos:
+cat PAT.txt | docker login https://docker.pkg.github.com -u magzupao --password-stdin
+
+-- nos visualiza un mensaje OK
+
+Creamos la imagen a subir siguiendo esta regla: docker tag IMAGE_NAME docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION
+
+docker tag my-app:v1 docker.pkg.github.com/magzupao/cursoprueba/my-app:v1
+
+Ejecutamos el push:
+docker push docker.pkg.github.com/magzupao/cursoprueba/my-app:v1
+
+Al finalizar nos da un mensaje Ok y podemos ver en la web de github en el repositorio creado en la opcion packages la imagen subida.
+
+
+
+
+
+
+
 
